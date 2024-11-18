@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
+from core.utils import upload_file
 import os
 from datetime import datetime
 
@@ -16,24 +16,12 @@ from core.db import (
     change_comment,
 )
 
-upload_folder = os.path.join("static", "uploads")
 
-
-app.config["UPLOAD"] = "core/static/uploads"
-
-
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
     search = request.args.get("search")
     posts = get_posts(search=search)
     return render_template("index.html", posts=posts)
-
-
-def upload_file():
-    file = request.files["img"]
-    filename = secure_filename(file.filename)
-    file.save(os.path.join(app.config["UPLOAD"], filename))
-    return filename
 
 
 @app.route("/add_posts", methods=["GET", "POST"])

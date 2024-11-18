@@ -4,21 +4,21 @@
     <br>
     <div class="card">
       <div class="card-header">
-        {{post[4]}}
-        {{post[3].strftime('%Y-%m-%d %H:%M')}}
+        {{post.author}}
+        {{post.date_post.strftime('%Y-%m-%d %H:%M')}}
         
       </div>
       <div class="card-body">
-        <h5 class="card-title">{{post[1]}}</h5>
-        <p class="card-text">{{post[2]}}</p>
+        <h5 class="card-title">{{post.title}}</h5>
+        <p class="card-text">{{post.description}}</p>
         
-        <a href="{{ url_for('delete_post_front', id=post[0])}}" class="btn btn-primary">Удалить</a>
-        <a href="{{ url_for('change_post_front', id=post[0])}}" class="btn btn-primary">Изменить</a>
+        <a href="{{ url_for('delete_post_front', id=post.id)}}" class="btn btn-primary">Удалить</a>
+        <a href="{{ url_for('change_post_front', id=post.id)}}" class="btn btn-primary">Изменить</a>
         <div class="card-body" style="display: inline-block; float: right; margin-top:-80px;"> 
-          <img src="{{ url_for('static', filename='uploads/' + post[5]) }}" alt="blogimage" height="200" width="200">
+          <img src="{{ url_for('static', filename='uploads/' + post.image) }}" alt="blogimage" height="200" width="200">
         </div>
       </div>
-      <form action="{{ url_for('add_comment_front', id=post[0]) }}" method="post">
+      <form action="{{ url_for('add_comment_front', id=post.id) }}" method="post">
         <div class="input-group mb-3">
             <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="комментарии" name="comment" required>
         </div>
@@ -28,12 +28,12 @@
     </div>
     <br>
     <h5 class="card-title">Kомментарии</h5>
-    {% if post[6] is not none %}
-      {% for comment in post[6] %}
+    {% if post.comments is not none %}
+      {% for comment in post.comments %}
         {% if comment is not none %}
           <p class="card-text">{{ comment }}</p>
-          <a href="{{ url_for('delete_comment_front', id=post[0], comment=comment)}}" style="display: inline;">Удалить</a>
-          <a href="{{ url_for('change_comment_front', id=post[0], comment=comment)}}" style="display: inline;">Изменить</a>
+          <a href="{{ url_for('delete_comment_front', id=post.id, comment=comment)}}" style="display: inline;">Удалить</a>
+          <a href="{{ url_for('change_comment_front', id=post.id, comment=comment)}}" style="display: inline;">Изменить</a>
         {% endif %}
       {% endfor %}
     {% else %}
